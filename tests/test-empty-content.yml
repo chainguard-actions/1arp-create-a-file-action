@@ -1,0 +1,31 @@
+name: Test file creation with empty content
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          path: ''
+          file: empty.txt
+          content: ''
+      - name: Assert file exists
+        run: |
+          echo "Checking if empty.txt exists..."
+          if [ ! -f "empty.txt" ]; then
+            echo "FAIL: empty.txt was not created"
+            exit 1
+          fi
+          echo "PASS: file exists"
+      - name: Assert file is empty
+        run: |
+          ACTUAL="$(cat empty.txt)"
+          echo "actual: '$ACTUAL'"
+          if [ -n "$ACTUAL" ]; then
+            echo "FAIL: expected empty content but got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS: file is empty as expected"

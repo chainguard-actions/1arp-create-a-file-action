@@ -1,0 +1,31 @@
+name: Test file creation in subdirectory
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          path: 'output/subdir'
+          file: result.txt
+          content: 'Subdirectory content'
+      - name: Assert file exists in subdirectory
+        run: |
+          echo "Checking if output/subdir/result.txt exists..."
+          if [ ! -f "output/subdir/result.txt" ]; then
+            echo "FAIL: output/subdir/result.txt was not created"
+            exit 1
+          fi
+          echo "PASS: file exists in subdirectory"
+      - name: Assert file content in subdirectory
+        run: |
+          ACTUAL="$(cat output/subdir/result.txt)"
+          echo "actual: $ACTUAL"
+          if [ "$ACTUAL" != "Subdirectory content" ]; then
+            echo "FAIL: expected 'Subdirectory content' but got '$ACTUAL'"
+            exit 1
+          fi
+          echo "PASS: content matches"
