@@ -1,15 +1,56 @@
-# 1arp/create-a-file-action
+# Create A File
+action to create a file in the actions workflow
+## path
+```yaml
+with:
+    path: value
+```
+Path where you want to create the file relative to the cwd (default: root of your repository)
+## isAbsolutepath ( optional )
+```yaml
+with:
+    isAbsolutepath: boolean
+```
+If the path provided is an absolute path (default: false)
+## file
+```yaml
+with:
+    file: value
+```
+Name of the file with extention
+## content
+```yaml
+with:
+    content: value
+```
+Content of the file (default: empty)
 
-Create a file
+## Example Usage
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/1arp/create-a-file-action](https://github.com/1arp/create-a-file-action).
+An example of a workflow for some documentation.
 
-## Versions
+````yml
+name: Create A File
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - master
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| 0.3 | [`0.3`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.3) | [`c4627bf`](https://github.com/1arp/create-a-file-action/commit/c4627bfb2b7012f0f26a9b04d663deb86a0bd21f) |
-| 0.4.6 | [`0.4.6`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.6) | [`1cdd9b6`](https://github.com/1arp/create-a-file-action/commit/1cdd9b67e2fa15cff7431f5ba6863466a76a9a9e) |
+jobs:
+  createFile:
+    name: Create A File
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 1arp/create-a-file-action@0.4.2
+        with:
+          path: 'src'
+          file: 'foo.bar'
+          content: |
+            Hello
+            World
+````
 
 ## Privacy
 

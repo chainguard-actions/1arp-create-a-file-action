@@ -1,0 +1,32 @@
+name: Test file creation with empty content
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          path: ${{ github.workspace }}
+          isAbsolutePath: true
+          file: empty.txt
+          content: ''
+      - name: Assert empty file was created
+        run: |
+          echo "Checking if empty.txt exists..."
+          if [ ! -f "$GITHUB_WORKSPACE/empty.txt" ]; then
+            echo "FAIL: empty.txt was not created"
+            exit 1
+          fi
+          echo "PASS: empty file exists"
+      - name: Assert file is empty
+        run: |
+          SIZE=$(wc -c < "$GITHUB_WORKSPACE/empty.txt")
+          echo "file size: $SIZE bytes"
+          if [ "$SIZE" -ne 0 ]; then
+            echo "FAIL: expected empty file but got $SIZE bytes"
+            exit 1
+          fi
+          echo "PASS: file is empty"
