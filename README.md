@@ -10,6 +10,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 |---------|-----|-----------------|
 | 0.3 | [`0.3`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.3) | [`c4627bf`](https://github.com/1arp/create-a-file-action/commit/c4627bfb2b7012f0f26a9b04d663deb86a0bd21f) |
 | 0.4.2 | [`0.4.2`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.2) | [`001bac4`](https://github.com/1arp/create-a-file-action/commit/001bac46f341288e04a4cf4c476dfb7877bef0e5) |
+| 0.4.5 | [`0.4.5`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.5) | [`6b7fed8`](https://github.com/1arp/create-a-file-action/commit/6b7fed8f0bcec18f7685ff950011088e7ef5e378) |
 | 0.4.6 | [`0.4.6`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.6) | [`1cdd9b6`](https://github.com/1arp/create-a-file-action/commit/1cdd9b67e2fa15cff7431f5ba6863466a76a9a9e) |
 
 ## Privacy
