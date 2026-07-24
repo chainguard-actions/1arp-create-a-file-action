@@ -1,0 +1,30 @@
+name: Test absolute path file creation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          path: '/tmp/create-a-file-test'
+          isAbsolutePath: 'true'
+          file: 'absolute.txt'
+          content: 'Absolute path content'
+      - name: Assert file exists at absolute path with correct content
+        run: |
+          FILE="/tmp/create-a-file-test/absolute.txt"
+          echo "Checking file: $FILE"
+          if [ ! -f "$FILE" ]; then
+            echo "FAIL: file '$FILE' was not created"
+            exit 1
+          fi
+          CONTENT="$(cat "$FILE")"
+          echo "actual content: $CONTENT"
+          if [ "$CONTENT" != "Absolute path content" ]; then
+            echo "FAIL: expected 'Absolute path content' but got '$CONTENT'"
+            exit 1
+          fi
+          echo "PASS"

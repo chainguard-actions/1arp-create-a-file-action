@@ -1,0 +1,29 @@
+name: Test basic file creation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: action
+        uses: .
+        with:
+          path: 'output'
+          file: 'hello.txt'
+          content: 'Hello, World!'
+      - name: Assert file exists with correct content
+        run: |
+          FILE="output/hello.txt"
+          echo "Checking file: $FILE"
+          if [ ! -f "$FILE" ]; then
+            echo "FAIL: file '$FILE' was not created"
+            exit 1
+          fi
+          CONTENT="$(cat "$FILE")"
+          echo "actual content: $CONTENT"
+          if [ "$CONTENT" != "Hello, World!" ]; then
+            echo "FAIL: expected 'Hello, World!' but got '$CONTENT'"
+            exit 1
+          fi
+          echo "PASS"
