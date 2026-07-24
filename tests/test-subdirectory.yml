@@ -1,0 +1,32 @@
+name: Test file creation in subdirectory
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Create subdirectory
+        run: mkdir -p "$GITHUB_WORKSPACE/output/subdir"
+      - id: action
+        uses: .
+        with:
+          path: 'output/subdir'
+          file: result.txt
+          content: 'File in subdirectory'
+      - name: Assert file exists in subdirectory
+        run: |
+          if [ ! -f "$GITHUB_WORKSPACE/output/subdir/result.txt" ]; then
+            echo "FAIL: expected file output/subdir/result.txt not found"
+            exit 1
+          fi
+          echo "PASS: file exists in subdirectory"
+      - name: Assert file content
+        run: |
+          CONTENT="$(cat "$GITHUB_WORKSPACE/output/subdir/result.txt")"
+          echo "actual content: $CONTENT"
+          if [ "$CONTENT" != "File in subdirectory" ]; then
+            echo "FAIL: expected 'File in subdirectory' but got '$CONTENT'"
+            exit 1
+          fi
+          echo "PASS: content matches"
