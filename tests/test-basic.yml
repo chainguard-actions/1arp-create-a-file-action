@@ -1,0 +1,32 @@
+name: Test basic file creation
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Prepare output directory
+        run: mkdir -p "$GITHUB_WORKSPACE/test-output"
+      - id: action
+        uses: .
+        with:
+          path: '${{ github.workspace }}/test-output'
+          isAbsolutePath: true
+          file: hello.txt
+          content: 'Hello, World!'
+      - name: Assert file exists with correct content
+        run: |
+          TARGET="$GITHUB_WORKSPACE/test-output/hello.txt"
+          echo "Checking if $TARGET exists..."
+          if [ ! -f "$TARGET" ]; then
+            echo "FAIL: hello.txt was not created at $TARGET"
+            exit 1
+          fi
+          CONTENT=$(cat "$TARGET")
+          echo "content: $CONTENT"
+          if [ "$CONTENT" != "Hello, World!" ]; then
+            echo "FAIL: expected 'Hello, World!' but got '$CONTENT'"
+            exit 1
+          fi
+          echo "PASS"

@@ -1,19 +1,56 @@
-# 1arp/create-a-file-action
+# Create A File
+action to create a file in the actions workflow
+## path
+```yaml
+with:
+    path: value
+```
+Path where you want to create the file relative to the cwd (default: root of your repository)
+## isAbsolutepath ( optional )
+```yaml
+with:
+    isAbsolutepath: boolean
+```
+If the path provided is an absolute path (default: false)
+## file
+```yaml
+with:
+    file: value
+```
+Name of the file with extention
+## content
+```yaml
+with:
+    content: value
+```
+Content of the file (default: empty)
 
-Create a file
+## Example Usage
 
-Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at [https://github.com/1arp/create-a-file-action](https://github.com/1arp/create-a-file-action).
+An example of a workflow for some documentation.
 
-## Versions
+````yml
+name: Create A File
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - master
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| 0.2 | [`0.2`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.2) | [`ee80eda`](https://github.com/1arp/create-a-file-action/commit/ee80edaa4741d9997dbe053e052329d4070c020c) |
-| 0.3 | [`0.3`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.3) | [`c4627bf`](https://github.com/1arp/create-a-file-action/commit/c4627bfb2b7012f0f26a9b04d663deb86a0bd21f) |
-| 0.4.2 | [`0.4.2`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.2) | [`001bac4`](https://github.com/1arp/create-a-file-action/commit/001bac46f341288e04a4cf4c476dfb7877bef0e5) |
-| 0.4.4 | [`0.4.4`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.4) | [`29bab1a`](https://github.com/1arp/create-a-file-action/commit/29bab1af4675373aad48a2157c09f1917f85f008) |
-| 0.4.5 | [`0.4.5`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.5) | [`6b7fed8`](https://github.com/1arp/create-a-file-action/commit/6b7fed8f0bcec18f7685ff950011088e7ef5e378) |
-| 0.4.6 | [`0.4.6`](https://github.com/chainguard-actions/1arp-create-a-file-action/tree/0.4.6) | [`1cdd9b6`](https://github.com/1arp/create-a-file-action/commit/1cdd9b67e2fa15cff7431f5ba6863466a76a9a9e) |
+jobs:
+  createFile:
+    name: Create A File
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 1arp/create-a-file-action@0.3
+        with:
+          path: 'src'
+          file: 'foo.bar'
+          content: |
+            Hello
+            World
+````
 
 ## Privacy
 

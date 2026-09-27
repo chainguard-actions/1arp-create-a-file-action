@@ -1,0 +1,32 @@
+name: Test file creation with empty content
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Prepare output directory
+        run: mkdir -p "$GITHUB_WORKSPACE/test-output"
+      - id: action
+        uses: .
+        with:
+          path: '${{ github.workspace }}/test-output'
+          isAbsolutePath: true
+          file: empty.txt
+          content: ''
+      - name: Assert empty file exists
+        run: |
+          TARGET="$GITHUB_WORKSPACE/test-output/empty.txt"
+          echo "Checking if $TARGET exists..."
+          if [ ! -f "$TARGET" ]; then
+            echo "FAIL: empty.txt was not created at $TARGET"
+            exit 1
+          fi
+          CONTENT=$(cat "$TARGET")
+          echo "content: '$CONTENT'"
+          if [ -n "$CONTENT" ]; then
+            echo "FAIL: expected empty content but got '$CONTENT'"
+            exit 1
+          fi
+          echo "PASS"
